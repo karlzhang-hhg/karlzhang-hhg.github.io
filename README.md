@@ -1,2 +1,2 @@
 # karlzhang-hhg.github.io
-A learning website
+A learning website. Happy learning!
