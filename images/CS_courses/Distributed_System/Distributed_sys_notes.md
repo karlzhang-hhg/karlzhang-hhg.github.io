@@ -1,8 +1,22 @@
-[TOC]
+2017-10-10T05:48:09.582-05:00
 
-# Watch series about distributed system: 
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-##Address: https://www.youtube.com/watch?v=7VbL89mKK3M&list=PLOE1GTZ5ouRPbpTnrZ3Wqjamfwn_Q5Y9A&index=1
+- [Watch series about distributed system:](#watch-series-about-distributed-system)
+	- [Address: https://www.youtube.com/watch?v=7VbL89mKK3M&list=PLOE1GTZ5ouRPbpTnrZ3Wqjamfwn_Q5Y9A&index=1](#address-httpswwwyoutubecomwatchv7vbl89mkk3mlistploe1gtz5ourpbptnrz3wqjamfwnq5y9aindex1)
+	- [L1: What is a distributed system?](#l1-what-is-a-distributed-system)
+	- [L2: Why build a distributed system?](#l2-why-build-a-distributed-system)
+	- [L3: How to learn distributed systems?](#l3-how-to-learn-distributed-systems)
+	- [L4: What could go wrong?](#l4-what-could-go-wrong)
+	- [L5: The many types of fail](#l5-the-many-types-of-fail)
+	- [L6: Byzantine Fault Tolerance](#l6-byzantine-fault-tolerance)
+	- [L7: SLIs, SLOs, and SLAs](#l7-slis-slos-and-slas)
+
+<!-- /TOC -->
+
+# Watch series about distributed system:
+
+## Address: https://www.youtube.com/watch?v=7VbL89mKK3M&list=PLOE1GTZ5ouRPbpTnrZ3Wqjamfwn_Q5Y9A&index=1
 
 ## L1: What is a distributed system?
 
@@ -17,7 +31,7 @@
   - A car
 - Conclusion: they are everywhere.
 
-# L2: Why build a distributed system?
+## L2: Why build a distributed system?
 
 - Reasons you need to build a distributed system.
   - Legal/privacy/politics
@@ -111,4 +125,100 @@
         - Assertions
         - Timeouts
 
-![img](https://github.com/karlzhang-hhg/karlzhang-hhg.github.io/blob/master/images/CS_courses/Distributed_System/Issues_Dist_Sys.png?raw=true)
+![img](https://github.com/karlzhang-hhg/karlzhang-hhg.github.io/blob/master/images/CS_courses/Distributed_System/Failure_matrix.png?raw=true)
+
+## L6: Byzantine Fault Tolerance
+
+- Byzantine failure
+
+  - Not fail stop
+  - Trator nodes send conflicting messages: incorrect result
+  - Cause:
+    - Flaky nodes
+    - Malicious nodes
+
+- Why study Byzantine failure?
+
+  - Extreme fault tolerance:
+    - Bitcoin
+    - Boeing 777 & 787 flight controls
+  - A research area since the 1980's
+
+- Different assumptions:
+
+  - Can all nodes see all message? Some? None?
+  - Do nodes fail? How about the network?
+  - Finite computation?
+  - Static or dynamic adversary?
+  - Bounded communication time?
+  - Fully connected network?
+  - Randomized algorithms?
+  - Quantum or binary computers?
+
+- The two generals problem:
+
+  - Deals with network failure
+
+  - A consensus problem
+
+  - Two nodes have to agree
+
+  - General A,B,C. C is larger than A or B, but if A or B both attack or both retreat, A and B can succeed or survive, otherwise A and B will lose. A and B can only communicate through carrier through terriotory of C.
+
+    ![img](https://github.com/karlzhang-hhg/karlzhang-hhg.github.io/blob/master/images/CS_courses/Distributed_System/Two_generals.png?raw=true)
+
+    No matter what messages we come up with, and how many messages we exchange, we always have inconsistent state until one last message get through. **There is no perfect solution for two generals problem!**
+
+  - One practical solution: A sends 100 carriers to send messages, if one get through, we attack. Work for most situations.
+
+  - If Byzantine failure happens to network, there is no way we can solve this.
+
+- The Byzantine Generals Problem:
+
+  - Deals with node failure
+
+  - Paper: *The Byzantine Generals Problem, Leslie Lamport*
+
+  - How many byzantine node failure can a system survive?
+
+  - How might you build such a system?
+
+  - Is it worth doing it at all?
+
+  - **Goal: Reach a consensus among all loyal generals**
+
+    - **We care what loyal generals think about those traitor generals said (we don't care what traitor generals said).**
+
+    - Communicate one general's decision to the rest of generals.
+
+    - We don't know who is traitor generals
+
+    - *How many traitors can you have and still solve BGP?*
+
+    - Assume: point-ot-point ('oral') message; no crypto
+
+      ![img](https://github.com/karlzhang-hhg/karlzhang-hhg.github.io/blob/master/images/CS_courses/Distributed_System/BGP.png?raw=true)
+
+      We cannot tell difference of the two cases.
+
+    - **How many traitors can be tolerated?**
+
+      - **Lemma: No solution for 3m+1 generals with >m traitors**
+
+  - Assume:
+
+    - Less than 1/3 of generals are traitors
+    - Oral messages
+    - No crypto
+    - OM(m): solution to BGP for <m traitors
+    - Inductive solution
+
+  - BGP solution is a very expensive solution. Not always necessary.
+
+    Runtime:
+
+    ![img](https://github.com/karlzhang-hhg/karlzhang-hhg.github.io/blob/master/images/CS_courses/Distributed_System/BGP_runtime.png?raw=true)
+
+  - Many extensions on this problem.
+
+## L7: SLIs, SLOs, and SLAs
